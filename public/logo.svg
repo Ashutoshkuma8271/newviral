@@ -50,9 +50,9 @@
     <path d="M -30 18 L 48 18 L 48 32 L -30 32 Z" fill="#F5B90F"/>
   </g>
 
-  <!-- Wordmark: VYRAL (Black) BEE (White) -->
+  <!-- Wordmark: VIRAL (Black) BEE (White) -->
   <g transform="translate(250, 360)" text-anchor="middle" font-family="'Space Grotesk', 'Montserrat', 'Arial Black', sans-serif" font-weight="900" font-size="44" letter-spacing="4">
-    <text x="-38" y="0" fill="#0A0A0A">VYRAL</text>
+    <text x="-38" y="0" fill="#0A0A0A">VIRAL</text>
     <text x="76" y="0" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="1.5" paint-order="stroke fill">BEE</text>
   </g>
 

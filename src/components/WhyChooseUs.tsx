@@ -1,97 +1,56 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Briefcase,
-  Palette,
-  CalendarCheck,
-  MessageSquareText,
-  LineChart,
-  Layers,
-  ShieldCheck,
-  UserCheck,
-} from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { WHY_CHOOSE_US } from '../constants/content.ts';
+import { SectionHeader } from './common/SectionHeader.tsx';
+import { Reveal } from './common/Reveal.tsx';
 
-const iconMap: Record<string, React.ElementType> = {
-  Briefcase,
-  Palette,
-  CalendarCheck,
-  MessageSquareText,
-  LineChart,
-  Layers,
-  ShieldCheck,
-  UserCheck,
-};
-
+/**
+ * Home: why work with us. Each of the eight points is one clean block: the usual agency problem struck through in
+ * a soft serif, then our answer and what it means. Same content as before, set so it scans in seconds.
+ */
 export const WhyChooseUs: React.FC = () => {
   return (
-    <section className="py-20 sm:py-28 md:py-32 relative bg-[#070707] bg-noise-grid border-t border-white/[0.08] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-        
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 pb-8 border-b border-white/[0.08] gap-6"
-        >
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#F5B90F]" />
-              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.22em] text-[#F5B90F]">
-                07 / Agency Principles
-              </span>
-            </div>
-            <h2 className="text-fluid-h2 font-display font-extrabold text-white">
-              Why Choose Us
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-neutral-400 font-sans max-w-sm">
-            Built to eliminate agency friction, deliver authentic brand distinction, and maximize return on spend.
-          </p>
-        </motion.div>
+    <section className="relative bg-wax py-24 text-ink sm:py-32">
+      <div className="shell">
+        <SectionHeader
+          tone="light"
+          title="Less agency friction. More results."
+          intro="What working with Viral Bee looks like, compared with what most businesses put up with."
+        />
 
-        {/* 8 Principles Matrix with Hive Styling & Duotone Icons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {WHY_CHOOSE_US.map((item, idx) => {
-            const IconComponent = iconMap[item.icon] || Briefcase;
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                className="p-7 card-hive flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/[0.04]">
-                    <div className="w-8 h-8 rounded-lg bg-[#F5B90F] text-black flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(245,185,15,0.25)]">
-                      <IconComponent className="w-4 h-4 stroke-[2.5]" />
-                    </div>
-                    <span className="font-mono text-xs font-semibold text-[#F5B90F]">
-                      /{String(idx + 1).padStart(2, '0')}
-                    </span>
-                  </div>
+        <ul className="mt-14 -mx-5 flex snap-x snap-mandatory overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-4 sm:-mx-8 sm:mt-20 sm:px-8 md:mx-0 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-12 md:overflow-visible md:px-0 md:pb-0 lg:gap-x-16">
+          {WHY_CHOOSE_US.map((item, idx) => (
+            <Reveal
+              as="li"
+              key={item.title}
+              delay={(idx % 2) * 0.08}
+              className="w-[84%] shrink-0 snap-center rounded-3xl border border-ink/10 bg-white p-7 text-center sm:w-[60%] md:w-auto md:rounded-none md:border-0 md:border-t md:border-ink/15 md:bg-transparent md:p-0 md:pt-7 md:text-left"
+            >
+              <p className="font-serif-display text-lg italic text-ink/75 line-through decoration-ink/35 decoration-1">
+                <span className="sr-only">Instead of: </span>
+                {item.usual}
+              </p>
+              <h3 className="mt-3 font-display text-2xl font-semibold leading-snug text-ink">
+                <span className="sr-only">With Viral Bee: </span>
+                {item.title}
+              </h3>
+              <p className="mx-auto mt-3 max-w-[52ch] text-base leading-relaxed text-ink/70 md:mx-0">
+                {item.description}
+              </p>
+            </Reveal>
+          ))}
+        </ul>
 
-                  <h3 className="font-display font-bold text-white text-base mb-2 group-hover:text-[#F5B90F] transition-colors leading-snug">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-neutral-400 font-sans leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="mt-6 pt-3 border-t border-white/[0.04] text-[10px] font-mono text-neutral-400 uppercase">
-                  Studio Standard
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="mt-14 flex justify-center sm:mt-16">
+          <Link
+            to="/contact"
+            className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[15px] font-semibold text-wax transition-colors hover:bg-black"
+          >
+            Start a conversation
+            <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </div>
-
       </div>
     </section>
   );

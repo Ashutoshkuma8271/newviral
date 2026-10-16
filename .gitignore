@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local safety backups (see audit-log.md)
+_backup/
+
+# TypeScript build cache
+*.tsbuildinfo

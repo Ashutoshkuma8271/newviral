@@ -1,16 +1,18 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout.tsx';
+import { lazyWithRetry } from './lib/lazyWithRetry.ts';
+import Home from './pages/Home.tsx';
 
 // Code-split pages with React.lazy for on-demand bundle loading
-const Home = lazy(() => import('./pages/Home.tsx'));
-const About = lazy(() => import('./pages/About.tsx'));
-const Services = lazy(() => import('./pages/Services.tsx'));
-const Process = lazy(() => import('./pages/Process.tsx'));
-const Work = lazy(() => import('./pages/Work.tsx'));
-const Packages = lazy(() => import('./pages/Packages.tsx'));
-const Contact = lazy(() => import('./pages/Contact.tsx'));
-const NotFound = lazy(() => import('./pages/NotFound.tsx'));
+const About = lazyWithRetry(() => import('./pages/About.tsx'));
+const Services = lazyWithRetry(() => import('./pages/Services.tsx'));
+const Process = lazyWithRetry(() => import('./pages/Process.tsx'));
+const Work = lazyWithRetry(() => import('./pages/Work.tsx'));
+const Packages = lazyWithRetry(() => import('./pages/Packages.tsx'));
+const Contact = lazyWithRetry(() => import('./pages/Contact.tsx'));
+const Privacy = lazyWithRetry(() => import('./pages/Privacy.tsx'));
+const NotFound = lazyWithRetry(() => import('./pages/NotFound.tsx'));
 
 export function App() {
   return (
@@ -24,6 +26,7 @@ export function App() {
           <Route path="/work" element={<Work />} />
           <Route path="/packages" element={<Packages />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Route>

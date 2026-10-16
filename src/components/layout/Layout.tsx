@@ -1,23 +1,43 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '../Navbar.tsx';
 import { Footer } from '../Footer.tsx';
 import { ScrollToTop } from '../common/ScrollToTop.tsx';
 import { PageLoader } from '../common/PageLoader.tsx';
+import { ErrorBoundary } from '../common/ErrorBoundary.tsx';
+import { startSmoothScroll, stopSmoothScroll } from '../../lib/smoothScroll.ts';
+import { ScrollProgress } from '../common/ScrollProgress.tsx';
+import { FloatingWhatsApp } from '../common/FloatingWhatsApp.tsx';
 
 export const Layout: React.FC = () => {
   const location = useLocation();
 
+  useEffect(() => {
+    startSmoothScroll();
+    return stopSmoothScroll;
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col selection:bg-[#F5B90F] selection:text-black">
+    <div className="min-h-screen bg-ink text-white flex flex-col">
       <ScrollToTop />
-      
+      <ScrollProgress />
+      <FloatingWhatsApp />
+
+      {/* Lets keyboard users jump past the navigation */}
+      <a
+        href="#main"
+        className="sr-only z-[60] rounded-full bg-gold px-5 py-3 text-sm font-semibold text-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Skip to content
+      </a>
+
       {/* Persistent Shared Header */}
       <Navbar />
 
-      {/* Main Routed Content with Animated Route Transitions */}
-      <div className="flex-grow pt-20 sm:pt-24">
+      {/* Main Routed Content with Animated Route Transitions (padding = navbar height) */}
+      {/* overflow-x-clip: 3D tilts may briefly reach past the screen edge; clip keeps sticky scenes working (hidden would not) */}
+      <main id="main" tabIndex={-1} className="flex-grow overflow-x-clip pt-20 outline-none lg:pt-23">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -30,12 +50,14 @@ export const Layout: React.FC = () => {
             }}
             className="w-full flex flex-col"
           >
-            <Suspense fallback={<PageLoader />}>
-              <Outlet />
-            </Suspense>
+            <ErrorBoundary key={location.pathname}>
+              <Suspense fallback={<PageLoader />}>
+                <Outlet />
+              </Suspense>
+            </ErrorBoundary>
           </motion.div>
         </AnimatePresence>
-      </div>
+      </main>
 
       {/* Persistent Shared Footer */}
       <Footer />

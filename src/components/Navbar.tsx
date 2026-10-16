@@ -1,19 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { Logo } from './Logo.tsx';
 import { NAV_LINKS, BRAND } from '../constants/content.ts';
+import { lockScroll } from '../lib/smoothScroll.ts';
+import { Magnetic } from './common/Magnetic.tsx';
+import { EASE } from '../lib/motion.ts';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 export const Navbar: React.FC = () => {
+  const reduceMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const lastY = useRef(0);
   const location = useLocation();
 
+  // Solid after a little scroll; slides away while scrolling down, comes back as soon as you scroll up.
+  // Never hidden near the top, or while keyboard focus is inside the header.
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const y = window.scrollY;
+      setIsScrolled(y > 24);
+      const delta = y - lastY.current;
+      if (Math.abs(delta) > 6) {
+        const focusInside = headerRef.current?.contains(document.activeElement);
+        setHidden(delta > 0 && y > 160 && !focusInside);
+        lastY.current = y;
+      }
     };
-
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -23,115 +41,150 @@ export const Navbar: React.FC = () => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Lock page scroll while the mobile menu is open
+  useEffect(() => {
+    lockScroll(mobileMenuOpen);
+    return () => lockScroll(false);
+  }, [mobileMenuOpen]);
+
+  const solid = isScrolled || mobileMenuOpen;
+  const tucked = hidden && !mobileMenuOpen && !reduceMotion;
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'py-3.5 md:py-4 bg-[#070707]/92 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.8)]'
-          : 'py-5 sm:py-6 md:py-7 bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-        <div className="flex items-center justify-between">
-          
-          {/* Brand Logo Lockup */}
-          <Link
-            to="/"
-            className="group flex items-center transition-opacity hover:opacity-95 shrink-0"
-            aria-label="Vyral Bee Home"
-          >
+    <>
+      <header
+        ref={headerRef}
+        onFocus={() => setHidden(false)}
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          solid ? 'border-b border-white/10 bg-ink/90 backdrop-blur-xl' : 'border-b border-transparent bg-transparent'
+        } ${tucked ? '-translate-y-full' : 'translate-y-0'}`}
+      >
+        <div
+          className={`shell flex h-20 items-center justify-between transition-[height] duration-300 ease-out ${
+            isScrolled ? 'lg:h-18' : 'lg:h-23'
+          }`}
+        >
+          <Link to="/" className="shrink-0" aria-label="Viral Bee home">
             <Logo size="md" />
           </Link>
 
-          {/* Center Navigation Capsule (Island Pill) */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 px-8 py-3.5 rounded-full bg-white/[0.04] hover:bg-white/[0.06] border border-white/[0.09] backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition-all duration-300">
-            {NAV_LINKS.map((link) => (
-              <NavLink
-                key={link.label}
-                to={link.href}
-                className={({ isActive }) =>
-                  `relative py-1 text-xs xl:text-[13px] font-sans font-semibold tracking-wider uppercase transition-colors duration-200 link-draw-gold ${
-                    isActive
-                      ? 'text-[#F5B90F]'
-                      : 'text-neutral-400 hover:text-white'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span>{link.label}</span>
-                    {isActive && (
-                      <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-[#F5B90F] to-[#FFD966] rounded-full shadow-[0_0_10px_#F5B90F]" />
-                    )}
-                  </>
-                )}
-              </NavLink>
-            ))}
+          <nav className="hidden items-center gap-9 lg:flex xl:gap-12" aria-label="Main" onMouseLeave={() => setHoveredHref(null)}>
+            {NAV_LINKS.filter((link) => link.href !== '/contact').map((link) => {
+              const current = link.href === '/' ? location.pathname === '/' : location.pathname.startsWith(link.href);
+              const marked = hoveredHref ? hoveredHref === link.href : current;
+              return (
+                <NavLink
+                  key={link.label}
+                  to={link.href}
+                  end={link.href === '/'}
+                  onMouseEnter={() => setHoveredHref(link.href)}
+                  onFocus={() => setHoveredHref(link.href)}
+                  onBlur={() => setHoveredHref(null)}
+                  className={({ isActive }) =>
+                    `relative py-2 text-[15px] font-medium transition-colors xl:text-base ${
+                      isActive || marked ? 'text-white' : 'text-white/70 hover:text-white'
+                    }`
+                  }
+                >
+                  {link.label}
+                  {marked && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 500, damping: 38 }}
+                      className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-gold"
+                    />
+                  )}
+                </NavLink>
+              );
+            })}
           </nav>
 
-          {/* Header Action Button */}
-          <div className="hidden sm:flex items-center gap-4 shrink-0">
-            <Link
-              to="/contact"
-              className="group relative inline-flex items-center gap-2.5 px-6 py-3 sm:px-7 sm:py-3.5 rounded-full bg-gradient-to-r from-[#F5B90F] to-[#E5A800] hover:from-[#FFD966] hover:to-[#F5B90F] text-black font-display font-extrabold text-xs sm:text-[13px] uppercase tracking-wider transition-all duration-300 shadow-[0_0_25px_rgba(245,185,15,0.35)] hover:shadow-[0_0_35px_rgba(245,185,15,0.6)] active:scale-[0.97]"
-            >
-              <span>Get a Free Quote</span>
-              <ArrowUpRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-          </div>
+          <div className="flex items-center gap-3">
+            <Magnetic>
+              <Link
+                to="/contact"
+                className="group hidden items-center gap-3 rounded-full bg-gold py-2 pl-6 pr-2 text-[15px] font-semibold text-ink transition-colors hover:bg-gold-light sm:inline-flex"
+              >
+                Let's talk
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-gold transition-transform duration-300 group-hover:rotate-45">
+                  <ArrowUpRight className="h-4 w-4" />
+                </span>
+              </Link>
+            </Magnetic>
 
-          {/* Mobile Hamburger Toggle */}
-          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-3 rounded-xl bg-white/[0.04] border border-white/10 text-white hover:text-[#F5B90F] hover:border-[#F5B90F]/40 transition-colors focus:outline-none cursor-pointer"
-              aria-label="Toggle Navigation Menu"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-white/50 lg:hidden"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Full-Screen Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 top-[76px] sm:top-[86px] bg-[#070707]/98 backdrop-blur-2xl border-t border-white/10 z-50 flex flex-col justify-between p-6 sm:p-8 lg:hidden animate-in fade-in duration-200 overflow-y-auto">
-          <div className="flex flex-col gap-3 pt-2">
-            <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-[#F5B90F] font-semibold">
-              Studio Navigation
-            </span>
-            {NAV_LINKS.map((link) => (
-              <NavLink
-                key={link.label}
-                to={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `text-2xl sm:text-3xl font-display font-bold transition-colors py-3 flex items-center justify-between border-b border-white/[0.05] ${
-                    isActive ? 'text-[#F5B90F]' : 'text-white hover:text-[#F5B90F]'
-                  }`
-                }
-              >
-                <span>{link.label}</span>
-                <ArrowUpRight className="w-5 h-5 text-neutral-500" />
-              </NavLink>
-            ))}
-          </div>
+      {/* Rendered outside <header>: the header's backdrop blur would otherwise trap this fixed panel inside the 80px bar */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={reduceMotion ? false : { clipPath: 'circle(0% at calc(100% - 42px) -40px)' }}
+            animate={{ clipPath: 'circle(150% at calc(100% - 42px) -40px)' }}
+            exit={reduceMotion ? { opacity: 0 } : { clipPath: 'circle(0% at calc(100% - 42px) -40px)' }}
+            transition={{ duration: 0.7, ease: EASE }}
+            data-lenis-prevent
+            className="fixed inset-x-0 bottom-0 top-20 z-40 flex flex-col justify-between overflow-y-auto bg-ink px-5 pb-8 pt-4 sm:px-8 lg:hidden"
+          >
+            <nav className="flex flex-col" aria-label="Mobile">
+              {NAV_LINKS.map((link, i) => (
+                <div key={link.label} className="overflow-hidden border-b border-white/10">
+                  <motion.div
+                    initial={reduceMotion ? false : { y: '110%' }}
+                    animate={{ y: '0%' }}
+                    transition={{ duration: 0.6, delay: 0.18 + i * 0.05, ease: EASE }}
+                  >
+                    <NavLink
+                      to={link.href}
+                      end={link.href === '/'}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-4 py-4 font-display text-3xl font-medium transition-colors sm:text-4xl ${
+                          isActive ? 'text-gold' : 'text-white'
+                        }`
+                      }
+                    >
+                      <span className="w-7 text-sm font-semibold tabular-nums text-white/35">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="flex-1">{link.label}</span>
+                      <ArrowUpRight className="h-5 w-5 text-white/30" />
+                    </NavLink>
+                  </motion.div>
+                </div>
+              ))}
+            </nav>
 
-          <div className="pt-6 border-t border-white/10 flex flex-col gap-4">
-            <Link
-              to="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-4 rounded-full bg-[#F5B90F] hover:bg-[#FFD426] text-black font-display font-extrabold text-center text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(245,185,15,0.4)] active:scale-[0.98]"
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.55, ease: EASE }}
+              className="flex flex-col gap-4 pt-8"
             >
-              Get a Free Strategy Call
-            </Link>
-            <div className="text-center text-xs text-neutral-500 font-mono">
-              {BRAND.tagline}
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full rounded-full bg-gold py-4 text-center text-base font-semibold text-ink"
+              >
+                Get a free strategy call
+              </Link>
+              <a href={`mailto:${BRAND.contact.email}`} className="text-center text-sm text-white/60">
+                {BRAND.contact.email}
+              </a>
+              <a href={`tel:${BRAND.contact.phone.replace(/[^+\d]/g, '')}`} className="-mt-2 text-center text-sm text-white/60">
+                {BRAND.contact.phone}
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };

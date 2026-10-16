@@ -1,45 +1,92 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowRight, MessageCircle } from 'lucide-react';
+import { BRAND } from '../constants/content.ts';
+import { Scene3D } from './common/Scene3D.tsx';
+import { Magnetic } from './common/Magnetic.tsx';
+import { motion, useReducedMotion } from 'framer-motion';
+import { EASE, VIEWPORT } from '../lib/motion.ts';
+
+const HEX = 'M12 2 20.66 7v10L12 22l-8.66-5V7z';
+const LINES = ['Ready to make your', 'brand more visible?'];
 
 export const CtaBanner: React.FC = () => {
+  const reduce = useReducedMotion();
   return (
-    <section className="py-20 sm:py-28 md:py-32 relative bg-[#0A0A0A] border-t border-white/[0.08]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="max-w-4xl mx-auto space-y-6"
-        >
-          <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.25em] text-[#F5B90F] block font-semibold">
-            CREATE • CONNECT • CONVERT
-          </span>
-
-          <h2 className="text-fluid-h2 font-display font-extrabold text-white">
-            Ready to Make Your Brand <br className="hidden sm:inline" />
-            <span className="text-gold-gradient italic">More Visible?</span>
-          </h2>
-
-          <p className="text-base sm:text-lg text-neutral-400 font-sans max-w-xl mx-auto leading-relaxed">
-            Let's build your digital presence together. Combine strategy, design, and performance under one dedicated roof.
-          </p>
-
-          <div className="pt-4">
-            <Link
-              to="/contact"
-              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#F5B90F] hover:bg-[#FFD426] text-black font-display font-bold text-xs uppercase tracking-widest transition-all duration-200 active:scale-98"
+    <section className="relative bg-ink py-20 sm:py-28">
+      <Scene3D className="shell" tilt={20}>
+        <div className="relative overflow-hidden rounded-[2rem] bg-gold px-6 py-14 text-ink sm:px-12 sm:py-20 lg:px-20 lg:py-24">
+          {/* Honeycomb outline drawing itself in the corner */}
+          <svg
+            viewBox="2.5 1.5 19 21"
+            className="pointer-events-none absolute -right-16 -top-20 h-[22rem] w-[22rem] text-ink/[0.12] sm:-right-10 lg:h-[30rem] lg:w-[30rem]"
+            aria-hidden="true"
+          >
+            {[1, 0.72, 0.44].map((k, i) => (
+              <motion.path
+                key={k}
+                d={HEX}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={0.18 / k}
+                style={{ scale: k, transformOrigin: '12px 12px' }}
+                initial={reduce ? false : { pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={VIEWPORT}
+                transition={{ duration: 1.6, delay: 0.2 + i * 0.2, ease: EASE }}
+              />
+            ))}
+          </svg>
+          <div className="relative grid gap-10 lg:grid-cols-12 lg:items-end">
+            <motion.h2
+              className="max-w-[16ch] text-fluid-h2 font-display font-semibold lg:col-span-7"
+              initial={reduce ? false : 'hidden'}
+              whileInView="show"
+              viewport={VIEWPORT}
             >
-              <span>Book a Free Consultation</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-1" />
-            </Link>
-          </div>
+              {LINES.map((line, i) => (
+                <span key={line} className="block overflow-hidden pb-[0.06em]">
+                  <motion.span
+                    className="block"
+                    variants={{
+                      hidden: { y: '105%' },
+                      show: { y: '0%', transition: { duration: 0.9, delay: 0.15 + i * 0.12, ease: EASE } },
+                    }}
+                  >
+                    {line}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.h2>
 
-        </motion.div>
-      </div>
+            <div className="lg:col-span-5">
+              <p className="max-w-md text-lg leading-relaxed text-ink/75">
+                Tell us where you are and where you want to be. We'll come back within one working day with a plan.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <Magnetic className="flex w-full sm:w-auto">
+                  <Link
+                    to="/contact"
+                    className="group inline-flex h-14 w-full sm:w-auto items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-ink px-8 text-base font-semibold text-wax transition-colors hover:bg-black"
+                  >
+                    Book a free consultation
+                    <ArrowRight className="h-5 w-5 text-gold transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </Magnetic>
+                <a
+                  href={BRAND.contact.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-14 items-center justify-center gap-2.5 whitespace-nowrap rounded-full border border-ink/30 px-8 text-base font-semibold text-ink transition-colors hover:border-ink hover:bg-ink hover:text-wax"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  WhatsApp us
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Scene3D>
     </section>
   );
 };
-

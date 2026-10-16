@@ -1,21 +1,14 @@
 import React from 'react';
-import { Logo } from '../Logo.tsx';
 
+/** Shown while a page's code loads: a pulsing hexagon, no text, no glow. */
 export const PageLoader: React.FC = () => {
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 relative">
-      {/* Background Ambient Glow */}
-      <div className="w-48 h-48 bg-[#F5B90F]/10 rounded-full blur-[80px] pointer-events-none absolute" />
-
-      <div className="relative z-10 flex flex-col items-center space-y-4 animate-pulse">
-        <Logo size="lg" showWordmark={true} />
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#F5B90F] animate-ping" />
-          <span className="text-[11px] font-mono tracking-[0.25em] text-neutral-400 uppercase">
-            Loading Studio Content...
-          </span>
-        </div>
-      </div>
+    <div className="flex min-h-svh items-center justify-center" role="status" aria-label="Loading">
+      <svg viewBox="0 0 24 24" className="h-12 w-12 animate-pulse text-gold" aria-hidden="true">
+        <path d="M12 2 20.66 7v10L12 22l-8.66-5V7z" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M12 7.5 16.6 10v5L12 17.5 7.4 15v-5z" fill="currentColor" />
+      </svg>
+      <span className="sr-only">Loading</span>
     </div>
   );
 };
