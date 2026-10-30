@@ -5,7 +5,7 @@ import { ContactPanel } from '../components/ContactPanel.tsx';
 
 export const ContactPage: React.FC = () => {
   usePageMeta({
-    title: "Contact Viral Bee | Book a Free Strategy Call",
+    title: "Contact Vyral Bee | Book a Free Strategy Call",
     description: "Tell us about your business and we'll reply within one working day with ideas and next steps. Email, phone or WhatsApp.",
   });
 
@@ -14,6 +14,7 @@ export const ContactPage: React.FC = () => {
       <PageHeader
         image="contact"
         title="Let's talk about your brand."
+        accent="your brand."
         intro="Book a free strategy call or send us a few details. We reply within one working day."
       />
       <ContactPanel />

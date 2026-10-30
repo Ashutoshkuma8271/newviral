@@ -20,7 +20,7 @@ const CHIPS = [
 
 export const ServicesPage: React.FC = () => {
   usePageMeta({
-    title: "Services: Social Media, Design, Web & Ads | Viral Bee",
+    title: "Services: Social Media, Design, Web & Ads | Vyral Bee",
     description: "Six services under one roof: social media management, branding and design, Reels and video, websites, Meta and Google ads, and lead generation.",
   });
 
@@ -29,11 +29,12 @@ export const ServicesPage: React.FC = () => {
       <PageHeader
         image="services"
         title="Services that get your brand seen and chosen."
+        accent="seen and chosen."
         intro={`${SERVICES.length} services, one team. Start with what you need now and add the rest as you grow.`}
         actions={
           <Link
             to="/contact"
-            className="group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-gold px-8 text-base font-semibold text-ink transition-colors hover:bg-gold-light"
+            className="glint group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-primary to-accent px-8 text-base font-semibold text-white shadow-[0_0_24px_rgba(37, 99, 235,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_36px_rgba(56, 189, 248,0.5)]"
           >
             Get a free strategy call
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />

@@ -25,6 +25,9 @@ dist-ssr
 
 # Local safety backups (see audit-log.md)
 _backup/
+.agent/
+.agents/
+scratch/
 
 # TypeScript build cache
 *.tsbuildinfo

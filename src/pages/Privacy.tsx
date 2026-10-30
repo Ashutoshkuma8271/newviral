@@ -46,37 +46,37 @@ const SECTIONS = [
 
 export const Privacy: React.FC = () => {
   usePageMeta({
-    title: 'Privacy Policy | Viral Bee',
-    description: 'What personal details Viral Bee collects through this website, why, and how you can ask us to correct or delete them.',
+    title: 'Privacy Policy | Vyral Bee',
+    description: 'What personal details Vyral Bee collects through this website, why, and how you can ask us to correct or delete them.',
   });
 
   return (
-    <section className="bg-ink pb-24 pt-32 sm:pb-32 lg:pt-40">
+    <section className="bg-[#0C0D12] pb-24 pt-32 sm:pb-32 lg:pt-40">
       <div className="shell grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <h1 className="max-w-[10ch] font-display text-fluid-h2 font-semibold text-white">Privacy policy</h1>
-          <p className="mt-6 text-base text-white/70">Last updated {UPDATED}</p>
+          <p className="mt-6 text-base text-[#CBD5E1]">Last updated {UPDATED}</p>
         </div>
 
         <div className="lg:col-span-8">
-          <p className="max-w-2xl text-lg leading-relaxed text-white/75">
+          <p className="max-w-2xl text-lg leading-relaxed text-[#CBD5E1]">
             We only collect what we need to answer your enquiry and do the work you ask for. Here is exactly what that means.
           </p>
-          <div className="mt-10 divide-y divide-white/12 border-y border-white/12">
+          <div className="mt-10 divide-y divide-white/10 border-y border-white/10">
             {SECTIONS.map((section) => (
               <section key={section.title} className="py-8">
                 <h2 className="font-display text-2xl font-semibold text-white">{section.title}</h2>
                 {section.body.map((paragraph) => (
-                  <p key={paragraph} className="mt-3 max-w-2xl text-base leading-relaxed text-white/75">
+                  <p key={paragraph} className="mt-3 max-w-2xl text-base leading-relaxed text-[#CBD5E1]">
                     {paragraph}
                   </p>
                 ))}
               </section>
             ))}
           </div>
-          <p className="mt-10 max-w-2xl text-base text-white/75">
+          <p className="mt-10 max-w-2xl text-base text-[#94A3B8]">
             Questions about this policy? Write to{' '}
-            <a className="font-semibold text-gold underline-offset-4 hover:underline" href={`mailto:${BRAND.contact.email}`}>
+            <a className="font-semibold text-[#38BDF8] underline-offset-4 hover:underline" href={`mailto:${BRAND.contact.email}`}>
               {BRAND.contact.email}
             </a>
             .

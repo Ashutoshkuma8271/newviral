@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout.tsx';
+import { SmoothScrollProvider } from './components/common/SmoothScrollProvider.tsx';
 import { lazyWithRetry } from './lib/lazyWithRetry.ts';
 import Home from './pages/Home.tsx';
 
@@ -17,7 +18,8 @@ const NotFound = lazyWithRetry(() => import('./pages/NotFound.tsx'));
 export function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <SmoothScrollProvider>
+        <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -31,6 +33,7 @@ export function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+    </SmoothScrollProvider>
     </BrowserRouter>
   );
 }

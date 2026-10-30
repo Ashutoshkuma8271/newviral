@@ -19,7 +19,7 @@ export const PillMarquee: React.FC<PillMarqueeProps> = ({ items, duration = 36, 
           <a
             href={item.href}
             tabIndex={copy > 0 ? -1 : undefined}
-            className="inline-flex h-11 items-center whitespace-nowrap rounded-full border border-white/25 bg-white/[0.07] px-5 text-[15px] font-medium text-white backdrop-blur-md transition-colors hover:border-gold hover:bg-gold hover:text-ink focus-visible:border-gold focus-visible:bg-gold focus-visible:text-ink"
+            className="inline-flex h-11 items-center whitespace-nowrap rounded-full border border-[#334155] bg-[#161F36]/80 px-5 text-[15px] font-medium text-[#F8FAFC] backdrop-blur-md transition-all hover:border-[#38BDF8] hover:bg-[#2563EB]/25 hover:text-white focus-visible:border-[#38BDF8] focus-visible:bg-[#2563EB]/25 focus-visible:text-white"
           >
             {item.label}
           </a>

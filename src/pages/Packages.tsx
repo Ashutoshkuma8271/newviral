@@ -9,7 +9,7 @@ import { PACKAGE_FAQS } from '../constants/faqs.ts';
 
 export const PackagesPage: React.FC = () => {
   usePageMeta({
-    title: "Packages | Starter, Growth & Premium | Viral Bee",
+    title: "Packages | Starter, Growth & Premium | Vyral Bee",
     description: "Three marketing packages that grow with your business: Starter, Growth and Premium. Priced to your goals and budget.",
   });
 
@@ -18,6 +18,7 @@ export const PackagesPage: React.FC = () => {
       <PageHeader
         image="packages"
         title="Packages that grow with your business."
+        accent="grow"
         intro="Pick the plan that fits where you are today. Each one is priced to your goals, and you can move up as results come in."
       />
       <PackageTiers />

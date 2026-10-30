@@ -9,7 +9,7 @@ import { CtaBanner } from '../components/CtaBanner.tsx';
 
 export const AboutPage: React.FC = () => {
   usePageMeta({
-    title: "About Viral Bee | A Marketing Team That Works as Yours",
+    title: "About Vyral Bee | A Marketing Team That Works as Yours",
     description: "Meet the digital marketing team that combines strategy, design and performance marketing under one roof, so you don't manage five freelancers.",
   });
 
@@ -18,11 +18,12 @@ export const AboutPage: React.FC = () => {
       <PageHeader
         image="about"
         title="The team behind brands people notice."
-        intro="Viral Bee is a digital marketing agency that plans, creates and runs your social media, design, video, website and ads as one connected system."
+        accent="notice."
+        intro="Vyral Bee is a digital marketing agency that plans, creates and runs your social media, design, video, website and ads as one connected system."
         actions={
           <Link
             to="/contact"
-            className="group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-gold px-8 text-base font-semibold text-ink transition-colors hover:bg-gold-light"
+            className="glint group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-primary to-accent px-8 text-base font-semibold text-white shadow-[0_0_24px_rgba(37, 99, 235,0.35)] transition-all hover:scale-[1.02] hover:shadow-[0_0_36px_rgba(56, 189, 248,0.5)]"
           >
             Work with us
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />

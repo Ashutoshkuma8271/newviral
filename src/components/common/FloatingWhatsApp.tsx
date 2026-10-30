@@ -42,7 +42,7 @@ export const FloatingWhatsApp: React.FC = () => {
           href={BRAND.contact.whatsapp}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Chat with Viral Bee on WhatsApp"
+          aria-label="Chat with Vyral Bee on WhatsApp"
           initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 16 }}

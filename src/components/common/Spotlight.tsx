@@ -6,7 +6,10 @@ import { useMediaQuery } from '../../lib/motion.ts';
  * A soft gold glow that follows the cursor inside its parent card. Place it as the card's first child; the parent
  * needs `relative overflow-hidden`. Hover pointers only; nothing is rendered on touch screens or for reduced motion.
  */
-export const Spotlight: React.FC<{ size?: number }> = ({ size = 320 }) => {
+export const Spotlight: React.FC<{ size?: number; color?: string }> = ({
+  size = 320,
+  color = 'rgba(37, 99, 235, 0.25)',
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const canHover = useMediaQuery('(hover: hover) and (pointer: fine)');
@@ -37,7 +40,7 @@ export const Spotlight: React.FC<{ size?: number }> = ({ size = 320 }) => {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
       style={{
-        background: `radial-gradient(${size}px circle at var(--sx, 50%) var(--sy, 50%), rgba(242,165,22,0.16), transparent 70%)`,
+        background: `radial-gradient(${size}px circle at var(--sx, 50%) var(--sy, 50%), ${color}, transparent 70%)`,
       }}
     />
   );

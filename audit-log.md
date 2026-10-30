@@ -211,3 +211,27 @@ Record of approved changes that deleted, overwrote or bulk-edited project data. 
 
 - **Remote:** `origin` switched from `https://github.com/Ashutoshkuma8271/ViralBee.git` to `https://github.com/Ashutoshkuma8271/digitalagency.git` (owner chose "Switch to digitalagency"). The ViralBee repository on GitHub is untouched. To switch back: `git remote set-url origin https://github.com/Ashutoshkuma8271/ViralBee.git`.
 - **Commit:** all current work (full redesign) in one commit on `main`; `_backup/`, `node_modules`, `dist` and `*.tsbuildinfo` excluded by `.gitignore`. Checked beforehand: no secrets or real `.env` files.
+
+## 2026-10-16: Cinematic 3D hero (owner request, LOCAL ONLY — not committed or pushed)
+
+- **Restore point:** `_backup/2026-10-16-previous-ui-19/` (previous photo-slider hero, package.json before the 3D libraries).
+- **Installed (local):** three 0.186.1, @react-three/fiber 9.8.2, @react-three/drei 10.7.9, @react-three/postprocessing 3.2.0, @types/three (dev).
+- **Added:** `HeroScene3D.tsx` (real-time scene: amber honeycomb prisms, chrome ring, glowing orbs, particles, bloom; camera drifts, follows the mouse, dollies on scroll), `TrustStrip.tsx` (reads `TRUST_STRIP` in content.ts — placeholder facts until the owner sends real data), `common/GlowCursor.tsx` (mouse devices only), `public/images/hero/scene-poster-{900,1400,1920,2560}.webp` (new files, rendered from the scene).
+- **Changed:** `Hero.tsx` (rewritten: intro timeline dark → light sweep → 3D → headline → buttons → strip; rotating service headlines; "Start Your Project" / "View Our Work"; content fades/scales/lifts on scroll), `content.ts` (`TRUST_STRIP`, `HERO_MEDIA` with `enable3D` switch and optional video slot), `layout/Layout.tsx` (cursor), `index.html` (preloads the poster).
+- **Performance safeguards:** 3D only on laptop/desktop with a hardware GPU, fetched after page load + idle, paused off-screen, DPR ≤ 1.5, auto-fallback to the poster on slow devices. Depth of field and light rays removed after measuring (too heavy on Intel UHD).
+- **Measured (this machine):** phone median 75 (TBT ~0.3 s); desktop 91 when the 3D starts after measurement, 60 when Lighthouse catches the one-time ~1.8 s 3D start-up; accessibility/best practices/SEO 100.
+- `HeroHoneycomb.tsx` is now unused (kept; deleting needs owner approval).
+
+## 2026-10-16: 3D hero reverted to the previous photo slider; glow cursor removed (owner request, LOCAL ONLY)
+
+- **Saved first:** the 3D-hero version is in `_backup/2026-10-16-previous-ui-20/`.
+- **Restored from `_backup/2026-10-16-previous-ui-19/` (byte-identical):** `src/components/Hero.tsx`, `index.html` (first-photo preload), `src/components/layout/Layout.tsx` (no `GlowCursor`).
+- **Left in place, unused:** `HeroScene3D.tsx`, `TrustStrip.tsx`, `common/GlowCursor.tsx`, `scene-poster-*.webp`, the Three.js packages, and the `TRUST_STRIP` / `HERO_MEDIA` settings in content.ts. They are not loaded by the site; removing them needs owner approval.
+
+## 2026-10-16: Text and motion pass across sections (owner "go", LOCAL ONLY — not committed or pushed)
+
+- **Restore point:** `_backup/2026-10-16-previous-ui-21/`. Decisions: footer wordmark stays weight 600; kinetic band stays off (spec 8 skipped).
+- **New shared pieces:** `common/Shine.tsx` (hover light streak), `common/CheckPop.tsx` (checkmarks pop in, staggered); `RevealWords` gains `accent` + `tone` (one gold Fraunces-italic phrase, glow on dark, gold-dark on light); `TiltCard` gains `max` and `innerClassName`; `SectionHeader` and `PageHeader` pass `accent` (PageHeader H1 now reveals word by word, intro and buttons follow); `index.css`: `.accent-glow`, gold-pill/`.glint` hover glint, statement light sweep, footer wordmark gold sweep.
+- **Sections:** one accent phrase on 13 headings (6 page headers + 7 section headings); services preview turns in 3D with mouse speed + glass highlight; statement light sweep behind "Visible."; About heading reveal + stats panel tilt/shine; work panels (home + Work page) tilt 5° + shine, Work page images zoom 1.06; why-us rows stagger 0.08s; CTA black pill glint; deep-dive images, first-month cards, package cards tilt 4° + shine; checkmarks pop; footer links medium weight.
+- **Bug found and fixed during testing:** first version of the new RevealWords used a normal space between words, which browsers drop at inline-block edges ("Oneteamforyour"); restored the non-breaking space.
+- **Checks:** tsc + build pass (main JS 94 KB gz); no horizontal scroll at 1900/1440/390 on all 7 pages; no console errors; reduced motion clean on all pages; hero and statement pins unchanged; contact form: validation + mailto hand-off OK, no network requests (test values labelled TEST).

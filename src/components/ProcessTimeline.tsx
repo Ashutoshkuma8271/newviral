@@ -16,23 +16,23 @@ export const ProcessTimeline: React.FC = () => {
   });
 
   return (
-    <section id="process" className="relative bg-ink py-24 sm:py-32">
+    <section id="process" className="relative bg-[#0C0D12] py-24 sm:py-32">
       <div className="shell grid gap-14 lg:grid-cols-12 lg:gap-16">
         <div className="text-center lg:col-span-5 lg:text-left">
           <div className="lg:sticky lg:top-36">
             <h2 className="mx-auto max-w-[13ch] text-balance text-fluid-h2 font-display font-semibold text-white lg:mx-0">
               Six steps, repeated every month.
             </h2>
-            <p className="mx-auto mt-6 max-w-md text-lg leading-relaxed text-white/75 lg:mx-0">
+            <p className="mx-auto mt-6 max-w-md text-lg leading-relaxed text-[#CBD5E1] lg:mx-0">
               No guesswork and no black box. You always know what we're doing, why, and what it delivered.
             </p>
           </div>
         </div>
 
         <ol ref={listRef} className="relative lg:col-span-7">
-          <span className="absolute bottom-6 left-[23px] top-6 hidden w-px bg-white/12 sm:block" aria-hidden="true" />
+          <span className="absolute bottom-6 left-[23px] top-6 hidden w-px bg-white/10 sm:block" aria-hidden="true" />
           <motion.span
-            className="absolute bottom-6 left-[23px] top-6 hidden w-px origin-top bg-gold sm:block"
+            className="absolute bottom-6 left-[23px] top-6 hidden w-px origin-top bg-gradient-to-b from-[#F59E0B] to-[#FBBF24] sm:block"
             style={{ scaleY: reduceMotion ? 1 : fill }}
             aria-hidden="true"
           />
@@ -41,18 +41,18 @@ export const ProcessTimeline: React.FC = () => {
             const isReached = idx < reached;
             return (
               <li key={step.step} className="relative flex flex-col items-center gap-4 pb-16 text-center last:pb-0 sm:flex-row sm:items-start sm:gap-8 sm:text-left">
-                <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center bg-ink" aria-hidden="true">
+                <span className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center bg-[#171822]" aria-hidden="true">
                   <svg viewBox="0 0 24 24" className="h-8 w-8">
                     <path
                       d="M12 2 20.66 7v10L12 22l-8.66-5V7z"
-                      className={`transition-colors duration-500 ${isReached ? 'fill-gold stroke-gold' : 'fill-ink stroke-white/30'}`}
+                      className={`transition-colors duration-500 ${isReached ? 'fill-[#F59E0B] stroke-[#FBBF24]' : 'fill-[#171822] stroke-white/15'}`}
                       strokeWidth="1.5"
                     />
                   </svg>
                 </span>
                 <div className="sm:pt-1.5">
                   <h3 className="font-display text-3xl font-semibold text-white lg:text-4xl">{step.title}</h3>
-                  <p className="mx-auto mt-3 max-w-[36ch] text-base leading-relaxed text-white/70 sm:mx-0 sm:max-w-[48ch] lg:text-lg">{step.description}</p>
+                  <p className="mx-auto mt-3 max-w-[36ch] text-base leading-relaxed text-[#CBD5E1] sm:mx-0 sm:max-w-[48ch] lg:text-lg">{step.description}</p>
                 </div>
               </li>
             );

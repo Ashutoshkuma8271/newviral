@@ -124,3 +124,9 @@ akirafresh.com (ticker band, fact strip), wearecollins.com (large type lists, fo
 - **Hero:** pinned scroll scene — 3D tilt back, shrink to a rounded frame, photo push-in, copy fade, letterbox bars, dim; opening letterbox on load; film grain + vignette.
 - **Big blocks:** `Scene3D` screen lift (CTA, card grids). **Entrances:** `Reveal` tilts up into place. **Cards:** `TiltCard` follows the mouse.
 - Everything is off for reduced-motion visitors.
+
+## Work gallery cinematic upgrade (2026-10-17)
+
+- **Rhythm in threes:** feature (full 12 cols, 21:9 desktop, 3D screen lift, drifting outlined category word) alternating with asymmetric pairs (7/5 and 5/7, deal-in from sides, 12rem offset on smaller card with layered scroll rate).
+- **Interactions & transitions:** photo scroll push-in split from CSS hover zoom (1.05 + 1px gold/50 border + 6px title slide); rolling project count; sliding gold pill in `FilterRail`; smooth `popLayout` filter exit/enter and Lenis-aware scroll recovery.
+

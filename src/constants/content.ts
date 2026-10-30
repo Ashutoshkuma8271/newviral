@@ -1,24 +1,24 @@
-// Viral Bee Content & Configuration Constants
+// Vyral Bee Content & Configuration Constants
 // Real copy and configuration - edit placeholders before production deployment
 
 export const BRAND = {
-  name: "VIRAL BEE",
-  shortName: "Viral Bee",
+  name: "VYRAL BEE",
+  shortName: "Vyral Bee",
   tagline: "CREATE • CONNECT • CONVERT",
   positioning: "We Make Brands Visible.",
   subheadline:
-    "Viral Bee is a creative digital marketing agency helping businesses build a strong online presence, attract the right audience, and generate measurable growth.",
-  aboutHeading: "Who Is Viral Bee",
+    "Vyral Bee is a creative digital marketing agency helping businesses build a strong online presence, attract the right audience, and generate measurable growth.",
+  aboutHeading: "Who Is Vyral Bee",
   aboutCopy:
     "We work as an extension of your team — combining strategy, design, and performance marketing under one roof, so you don't have to manage five different freelancers to get consistent results.",
-  
-  // Contact & Social placeholders (customizable by client)
+
+  // Contact & Social information
   contact: {
     phone: "+91 85128 77877",
     phoneDisplay: "+91 85128 77877",
     email: "info@akirafresh.in",
     website: __SITE_URL__, // set in vite.config.ts
-    whatsapp: "https://wa.me/918512877877?text=Hello%20Viral%20Bee%2C%20I%20would%20like%20to%20grow%20my%20brand%21",
+    whatsapp: "https://wa.me/918512877877?text=Hello%20Vyral%20Bee%2C%20I%20would%20like%20to%20grow%20my%20brand%21",
     location: "R-18, Vikas Marg, Laxmi Nagar, Near Nirman Vihar Metro Station, Pillar No. 48, New Delhi, Delhi – 110092, India",
     // The same address split for display
     addressLines: [
@@ -64,7 +64,11 @@ export const SERVICES = [
     description: "Strategy, content, and community management across platforms that turn casual scrollers into engaged brand advocates.",
     icon: "Share2",
     badge: "Instagram, Facebook, LinkedIn",
-    color: "#F2A516",
+    color: "#7C3AED",
+    accentColor: "#F472B6",
+    paletteClass: "card-palette-3",
+    badgeClass: "badge-p3",
+    tagline: "Cosmic Virality",
   },
   {
     id: "creative-design",
@@ -74,7 +78,11 @@ export const SERVICES = [
     description: "Distinctive brand identity, design templates, and promotional creatives that demand attention and set you apart.",
     icon: "Palette",
     badge: "Logos, brand kits, creatives",
-    color: "#F7BA4A",
+    color: "#8F233A",
+    accentColor: "#C8A46A",
+    paletteClass: "card-palette-4",
+    badgeClass: "badge-p4",
+    tagline: "Editorial Luxury",
   },
   {
     id: "reels-video",
@@ -84,7 +92,11 @@ export const SERVICES = [
     description: "High-impact short-form video crafted purposefully for maximum organic reach, viewer retention, and engagement.",
     icon: "Video",
     badge: "Reels, Shorts, edits",
-    color: "#F2A516",
+    color: "#F05A28",
+    accentColor: "#FFB36B",
+    paletteClass: "card-palette-5",
+    badgeClass: "badge-p5",
+    tagline: "High Velocity",
   },
   {
     id: "website-dev",
@@ -94,7 +106,11 @@ export const SERVICES = [
     description: "High-converting, mobile-responsive business and corporate websites built to turn visitors into paying clients.",
     icon: "Globe",
     badge: "Business sites, landing pages",
-    color: "#F7BA4A",
+    color: "#2563EB",
+    accentColor: "#38BDF8",
+    paletteClass: "card-palette-1",
+    badgeClass: "badge-p1",
+    tagline: "Core Engineering",
   },
   {
     id: "meta-google-ads",
@@ -104,7 +120,11 @@ export const SERVICES = [
     description: "Data-driven performance campaigns meticulously built to capture high-intent enquiries and maximize ROAS.",
     icon: "TrendingUp",
     badge: "Meta, Google, retargeting",
-    color: "#F2A516",
+    color: "#087F5B",
+    accentColor: "#D4AF37",
+    paletteClass: "card-palette-2",
+    badgeClass: "badge-p2",
+    tagline: "Strategic Wealth",
   },
   {
     id: "lead-gen",
@@ -114,7 +134,11 @@ export const SERVICES = [
     description: "Full-funnel digital marketing strategies explicitly tied to tangible business revenue and customer acquisition.",
     icon: "Target",
     badge: "Funnels, leads, reporting",
-    color: "#F7BA4A",
+    color: "#06B6D4",
+    accentColor: "#22D3EE",
+    paletteClass: "card-palette-6",
+    badgeClass: "badge-p6",
+    tagline: "Market Intelligence",
   },
 ];
 
@@ -132,6 +156,125 @@ export const MARQUEE_ITEMS = [
 
 // Hero slider: one slide per service. Images live in /public/images/hero as {image}-1920.webp and {image}-900.webp.
 // The headline renders as `lead` + serif `accent` + `tail`.
+/**
+ * Hero trust strip (under the buttons). PLACEHOLDER until the owner sends real proof: these are facts already stated
+ * on the site, not client results. To update, replace `items` (short label + value) and/or add client logos to
+ * `clientLogos` (logo files in /public/images/clients/). When `clientLogos` has entries the logo row is shown first.
+ */
+export const TRUST_STRIP: {
+  label: string;
+  items: { value: string; label: string }[];
+  clientLogos: { name: string; src: string }[];
+} = {
+  label: "One team, every channel",
+  items: [
+    { value: "6", label: "services under one roof" },
+    { value: "8+", label: "industries served" },
+    { value: "1", label: "dedicated point of contact" },
+  ],
+  clientLogos: [],
+};
+
+export interface HeroVideoBanner {
+  id: string;
+  index: number;
+  label: string;
+  badge: string;
+  kicker: string;
+  lead: string;
+  headlineAccent: string;
+  stat: string;
+  statLabel: string;
+  description: string;
+  video: string;
+  poster: string;
+}
+
+export const HERO_VIDEO_BANNERS: HeroVideoBanner[] = [
+  {
+    id: "meta-growth",
+    index: 0,
+    label: "Meta & Performance Ads",
+    badge: "ROAS & Scaling",
+    kicker: "Growth Engineering",
+    lead: "We Make Brands",
+    headlineAccent: "Unforgettable.",
+    stat: "4.8x",
+    statLabel: "Average Meta Ad ROAS",
+    description: "Combining bold creative direction, cinematic video production, performance ads, and high-converting web development into one unified growth engine.",
+    video: "/video/banner-1.mp4",
+    poster: "/video/banner-1.png",
+  },
+  {
+    id: "creative-3d",
+    index: 1,
+    label: "3D Brand & Visual Design",
+    badge: "Bespoke Art Direction",
+    kicker: "Visual Architecture",
+    lead: "Design That Commands",
+    headlineAccent: "Attention.",
+    stat: "100%",
+    statLabel: "Custom Visual Identity",
+    description: "Distinctive brand identity systems, high-end 3D visual storytelling, and campaign creatives designed to establish immediate market authority.",
+    video: "/video/banner-2.mp4",
+    poster: "/video/banner-2.png",
+  },
+  {
+    id: "reels-production",
+    index: 2,
+    label: "Viral Reels & Video",
+    badge: "High-Retention Video",
+    kicker: "Content Engine",
+    lead: "Content People Stop",
+    headlineAccent: "Scrolling For.",
+    stat: "20M+",
+    statLabel: "Organic Reel Views",
+    description: "High-impact short-form video crafted purposefully for maximum organic reach, algorithmic retention, and audience conversion.",
+    video: "/video/banner-3.mp4",
+    poster: "/video/banner-3.png",
+  },
+  {
+    id: "brand-motion",
+    index: 3,
+    label: "Motion & Creative Tech",
+    badge: "Award-Winning Craft",
+    kicker: "Interactive Studio",
+    lead: "Digital Experiences That",
+    headlineAccent: "Mesmerize.",
+    stat: "3.2x",
+    statLabel: "Engagement Multiplier",
+    description: "Scroll-driven interactive websites and dynamic motion graphics inspired by leading creative tech agencies worldwide.",
+    video: "/video/banner-4.mp4",
+    poster: "/video/banner-4.png",
+  },
+  {
+    id: "lead-funnels",
+    index: 4,
+    label: "Websites & Lead Gen",
+    badge: "Conversion Engines",
+    kicker: "Full-Funnel Growth",
+    lead: "Turn Every Visitor Into A",
+    headlineAccent: "Client.",
+    stat: "12,000+",
+    statLabel: "Enquiries Generated",
+    description: "High-performance web architecture and conversion funnels engineered to transform cold web traffic into booked appointments and qualified revenue.",
+    video: "/video/banner-next-growth.mp4",
+    poster: "/video/banner-5.png",
+  },
+];
+
+export const HERO_MEDIA: {
+  enable3D: boolean;
+  poster: string;
+  video?: { webm?: string; mp4?: string };
+} = {
+  enable3D: true,
+  poster: "/video/hero-poster.png",
+  video: {
+    mp4: "/video/hero-cinematic.mp4",
+  },
+};
+
 export const HERO_SLIDES = [
   {
     id: "social-media",
@@ -258,7 +401,7 @@ export const PROCESS_STEPS = [
     step: "03",
     title: "Create",
     description: "Our studio designs thumb-stopping creatives, video scripts, ad copy, and high-performance landing pages.",
-    icon: "Sparkles",
+    icon: "Palette",
   },
   {
     step: "04",
@@ -366,6 +509,8 @@ export const WHY_CHOOSE_US = [
   },
 ];
 
+export const WORK_CATEGORIES = ['All', 'Social', 'Reels', 'Ads', 'Websites', 'Branding'] as const;
+
 export const PORTFOLIO_ITEMS = [
   {
     id: 1,
@@ -420,6 +565,60 @@ export const PORTFOLIO_ITEMS = [
     image: "fitness",
     description: "Dynamic carousel designs educating followers on functional performance fabrics.",
     stats: "28k+ Saves & Shares",
+  },
+  {
+    id: 7,
+    title: "Direct-to-Consumer Skincare Identity",
+    category: "Branding",
+    label: "Concept / Demo Project",
+    image: "brand",
+    description: "Minimalist packaging system, unboxing experience guidelines, and prestige launch social assets.",
+    stats: "+450% Pre-Orders",
+  },
+  {
+    id: 8,
+    title: "EdTech Platform Student Acquisition Funnel",
+    category: "Ads",
+    label: "Concept / Demo Project",
+    image: "ads",
+    description: "Performance Max and targeted Meta ads driving high-intent demo bookings across tier-1 cities.",
+    stats: "3.9x Blended ROAS",
+  },
+  {
+    id: 9,
+    title: "Boutique Hospitality & Hotel Website",
+    category: "Websites",
+    label: "Concept / Demo Project",
+    image: "web",
+    description: "Editorial typography, 3D room tour integration, and direct zero-commission booking engine.",
+    stats: "99.8 Performance Score",
+  },
+  {
+    id: 10,
+    title: "Urban Streetwear Viral TikTok & Reels",
+    category: "Reels",
+    label: "Concept / Demo Project",
+    image: "reels",
+    description: "Fast-cut beat-synced lookbook transitions and authentic street-interview micro-content.",
+    stats: "2.8M Views & 42k Shares",
+  },
+  {
+    id: 11,
+    title: "Organic Gourmet Food Supermarket",
+    category: "Social",
+    label: "Concept / Demo Project",
+    image: "cafe",
+    description: "Farm-to-fork visual storytelling, recipe carousels, and influencer co-creation campaigns.",
+    stats: "+180% Follower Growth",
+  },
+  {
+    id: 12,
+    title: "FinTech App Redesign & Growth Campaign",
+    category: "Websites",
+    label: "Concept / Demo Project",
+    image: "fitness",
+    description: "Interactive product demo microsite with slick micro-interactions and instant KYC onboarding flow.",
+    stats: "4.2x App Store Conversions",
   },
 ];
 

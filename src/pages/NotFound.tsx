@@ -6,16 +6,16 @@ import { NAV_LINKS } from '../constants/content.ts';
 
 export const NotFound: React.FC = () => {
   usePageMeta({
-    title: "Page not found | Viral Bee",
-    description: "This page could not be found. Head back to the Viral Bee home page.",
+    title: "Page not found | Vyral Bee",
+    description: "This page could not be found. Head back to the Vyral Bee home page.",
     noindex: true,
   });
 
   return (
-    <section className="relative flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-ink py-20">
-      {/* Faint honeycomb, same motif as the footer and the process timeline */}
+    <section className="relative flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-[#0C0D12] py-20">
+      {/* Faint honeycomb */}
       <svg
-        className="pointer-events-none absolute -right-24 top-1/2 hidden h-[640px] -translate-y-1/2 text-gold opacity-[0.07] md:block"
+        className="pointer-events-none absolute -right-24 top-1/2 hidden h-[640px] -translate-y-1/2 text-[#F59E0B] opacity-[0.06] md:block"
         viewBox="0 0 300 330"
         fill="none"
         stroke="currentColor"
@@ -29,33 +29,33 @@ export const NotFound: React.FC = () => {
       </svg>
 
       <div className="shell relative z-10">
-        <p className="font-display text-[clamp(6rem,22vw,16rem)] font-semibold leading-none text-gold">404</p>
+        <p className="font-impact text-[clamp(6rem,22vw,16rem)] font-bold leading-none text-transparent bg-clip-text bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-white">404</p>
         <h1 className="mt-4 max-w-[16ch] font-display text-fluid-h2 font-semibold text-white">
           This page has flown the hive.
         </h1>
-        <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/75">
+        <p className="mt-6 max-w-lg text-lg leading-relaxed text-[#CBD5E1]">
           The link may be old or mistyped. Head back home, or jump straight to what you were looking for.
         </p>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <Link
             to="/"
-            className="group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-gold px-8 text-base font-semibold text-ink transition-colors hover:bg-gold-light"
+            className="glint group inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-[#2563EB] px-8 text-base font-semibold text-white shadow-[0_0_24px_rgba(37,99,235,0.35)] transition-all hover:bg-[#1D4ED8] hover:shadow-[0_0_36px_rgba(56,189,248,0.5)]"
           >
             Back to home
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
           </Link>
           <Link
             to="/contact"
-            className="inline-flex h-14 items-center justify-center rounded-full border border-white/30 px-8 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-ink"
+            className="inline-flex h-14 items-center justify-center rounded-full border border-[#334155] bg-[#161F36] px-8 text-base font-semibold text-white transition-all hover:border-[#38BDF8] hover:text-[#38BDF8]"
           >
             Contact us
           </Link>
         </div>
 
-        <nav aria-label="Popular pages" className="mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/12 pt-8">
+        <nav aria-label="Popular pages" className="mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t border-[#334155]/60 pt-8">
           {NAV_LINKS.filter((l) => l.href !== '/' && l.href !== '/contact').map((link) => (
-            <Link key={link.href} to={link.href} className="text-[15px] text-white/70 transition-colors hover:text-gold">
+            <Link key={link.href} to={link.href} className="text-[15px] text-[#94A3B8] transition-colors hover:text-[#38BDF8]">
               {link.label}
             </Link>
           ))}

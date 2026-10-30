@@ -138,8 +138,8 @@ export const PhoneField: React.FC<PhoneFieldProps> = ({
   return (
     <div ref={rootRef} className="relative mt-2">
       <div
-        className={`flex h-12 items-stretch overflow-hidden rounded-xl border bg-white transition-colors focus-within:border-gold focus-within:ring-4 focus-within:ring-gold/25 ${
-          invalid ? 'border-red-600' : 'border-ink/15'
+        className={`flex h-12 items-stretch overflow-hidden rounded-xl border bg-[#171822] transition-colors focus-within:border-amber-400 focus-within:ring-4 focus-within:ring-amber-400/20 ${
+          invalid ? 'border-rose-500' : 'border-white/15'
         }`}
       >
         <button
@@ -148,12 +148,12 @@ export const PhoneField: React.FC<PhoneFieldProps> = ({
           aria-expanded={open}
           aria-label={`Country code: ${selected.name} +${selected.dial}. Change country`}
           onClick={() => setOpen((o) => !o)}
-          className="flex shrink-0 cursor-pointer items-center gap-2 border-r border-ink/10 pl-3.5 pr-2.5 text-base font-medium text-ink transition-colors hover:bg-ink/[0.04] focus:outline-none"
+          className="flex shrink-0 cursor-pointer items-center gap-2 border-r border-[#334155]/60 pl-3.5 pr-2.5 text-base font-medium text-[#F8FAFC] transition-colors hover:bg-surface/50 focus:outline-none"
         >
           <Flag code={selected.code} />
           <span className="tabular-nums">+{selected.dial}</span>
           <ChevronDown
-            className={`h-4 w-4 text-ink/50 transition-transform ${open ? 'rotate-180' : ''}`}
+            className={`h-4 w-4 text-[#94A3B8] transition-transform ${open ? 'rotate-180' : ''}`}
             aria-hidden="true"
           />
         </button>
@@ -169,14 +169,14 @@ export const PhoneField: React.FC<PhoneFieldProps> = ({
           aria-invalid={invalid}
           aria-describedby={describedBy}
           aria-label="Phone number"
-          className="min-w-0 flex-1 bg-transparent px-3.5 text-base text-ink placeholder:text-ink/45 focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent px-3.5 text-base text-[#F8FAFC] placeholder:text-[#94A3B8]/60 focus:outline-none"
         />
       </div>
 
       {open && (
-        <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.35)] sm:right-auto sm:w-[22rem]">
-          <div className="flex items-center gap-2.5 border-b border-ink/10 px-4">
-            <Search className="h-4 w-4 shrink-0 text-ink/45" aria-hidden="true" />
+        <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-2xl border border-[#334155] bg-[#161F36] shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] sm:right-auto sm:w-[22rem]">
+          <div className="flex items-center gap-2.5 border-b border-[#334155]/60 px-4">
+            <Search className="h-4 w-4 shrink-0 text-lavender/60" aria-hidden="true" />
             <input
               ref={searchRef}
               value={query}
@@ -189,11 +189,11 @@ export const PhoneField: React.FC<PhoneFieldProps> = ({
               aria-label="Search country or code"
               aria-controls={listId}
               aria-activedescendant={results[highlight] ? `${listId}-${results[highlight].code}` : undefined}
-              className="h-12 w-full bg-transparent text-[15px] text-ink placeholder:text-ink/45 focus:outline-none"
+              className="h-12 w-full bg-transparent text-[15px] text-white placeholder:text-lavender/50 focus:outline-none"
             />
           </div>
           <ul ref={listRef} id={listId} role="listbox" aria-label="Countries" className="max-h-72 overflow-y-auto py-1.5" data-lenis-prevent>
-            {results.length === 0 && <li className="px-4 py-3 text-[15px] text-ink/60">No country found</li>}
+            {results.length === 0 && <li className="px-4 py-3 text-[15px] text-lavender/60">No country found</li>}
             {results.map((c, i) => (
               <li
                 key={c.code}
@@ -203,13 +203,13 @@ export const PhoneField: React.FC<PhoneFieldProps> = ({
                 aria-selected={c.code === country}
                 onPointerEnter={() => setHighlight(i)}
                 onClick={() => choose(c)}
-                className={`flex cursor-pointer items-center gap-3 px-4 py-2.5 text-[15px] text-ink ${
-                  i === highlight ? 'bg-gold/15' : ''
-                } ${c.code === country ? 'font-semibold' : ''}`}
+                className={`flex cursor-pointer items-center gap-3 px-4 py-2.5 text-[15px] text-white transition-colors ${
+                  i === highlight ? 'bg-primary/25' : 'hover:bg-surface/50'
+                } ${c.code === country ? 'font-semibold text-accent' : ''}`}
               >
                 <Flag code={c.code} />
                 <span className="min-w-0 flex-1 truncate">{c.name}</span>
-                <span className="tabular-nums text-ink/55">+{c.dial}</span>
+                <span className="tabular-nums text-lavender/60">+{c.dial}</span>
               </li>
             ))}
           </ul>

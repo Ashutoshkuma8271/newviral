@@ -55,8 +55,10 @@ export const Navbar: React.FC = () => {
       <header
         ref={headerRef}
         onFocus={() => setHidden(false)}
-        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          solid ? 'border-b border-white/10 bg-ink/90 backdrop-blur-xl' : 'border-b border-transparent bg-transparent'
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          solid
+            ? 'border-b border-white/10 bg-[#0C0D12]/92 backdrop-blur-2xl shadow-[0_4px_30px_rgba(8,9,14,0.7)]'
+            : 'border-b border-transparent bg-transparent'
         } ${tucked ? '-translate-y-full' : 'translate-y-0'}`}
       >
         <div
@@ -64,11 +66,11 @@ export const Navbar: React.FC = () => {
             isScrolled ? 'lg:h-18' : 'lg:h-23'
           }`}
         >
-          <Link to="/" className="shrink-0" aria-label="Viral Bee home">
+          <Link to="/" className="shrink-0 transition-transform duration-300 hover:scale-[1.02]" aria-label="Vyral Bee home">
             <Logo size="md" />
           </Link>
 
-          <nav className="hidden items-center gap-9 lg:flex xl:gap-12" aria-label="Main" onMouseLeave={() => setHoveredHref(null)}>
+          <nav className="hidden items-center gap-1.5 rounded-full border border-white/10 bg-[#161722]/85 p-1.5 backdrop-blur-md lg:flex xl:gap-2" aria-label="Main" onMouseLeave={() => setHoveredHref(null)}>
             {NAV_LINKS.filter((link) => link.href !== '/contact').map((link) => {
               const current = link.href === '/' ? location.pathname === '/' : location.pathname.startsWith(link.href);
               const marked = hoveredHref ? hoveredHref === link.href : current;
@@ -81,19 +83,24 @@ export const Navbar: React.FC = () => {
                   onFocus={() => setHoveredHref(link.href)}
                   onBlur={() => setHoveredHref(null)}
                   className={({ isActive }) =>
-                    `relative py-2 text-[15px] font-medium transition-colors xl:text-base ${
-                      isActive || marked ? 'text-white' : 'text-white/70 hover:text-white'
+                    `relative rounded-full px-4 py-2 text-[14px] font-medium transition-all duration-200 xl:px-5 xl:text-[15px] ${
+                      isActive || marked ? 'text-white' : 'text-[#CBD5E1] hover:text-white'
                     }`
                   }
                 >
-                  {link.label}
                   {marked && (
                     <motion.span
-                      layoutId="nav-indicator"
-                      transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 500, damping: 38 }}
-                      className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-gold"
+                      layoutId="nav-pill"
+                      transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 500, damping: 35 }}
+                      className="absolute inset-0 rounded-full bg-[#222434] border border-white/15"
                     />
                   )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    {link.label}
+                    {current && (
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#F59E0B] shadow-[0_0_8px_#F59E0B]" />
+                    )}
+                  </span>
                 </NavLink>
               );
             })}
@@ -103,18 +110,19 @@ export const Navbar: React.FC = () => {
             <Magnetic>
               <Link
                 to="/contact"
-                className="group hidden items-center gap-3 rounded-full bg-gold py-2 pl-6 pr-2 text-[15px] font-semibold text-ink transition-colors hover:bg-gold-light sm:inline-flex"
+                className="group relative hidden items-center gap-2.5 overflow-hidden rounded-full border border-amber-300/40 bg-gradient-to-r from-[#F59E0B] via-[#EAB308] to-[#D97706] px-5 py-2 text-sm font-bold text-[#0C0D12] shadow-[0_4px_16px_rgba(245,158,11,0.45),inset_0_1px_1px_rgba(255,255,255,0.6)] backdrop-blur-md transition-all duration-300 ease-out hover:scale-105 hover:border-amber-200 hover:shadow-[0_0_24px_rgba(245,158,11,0.75)] active:scale-[0.98] sm:inline-flex"
               >
-                Let's talk
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-gold transition-transform duration-300 group-hover:rotate-45">
-                  <ArrowUpRight className="h-4 w-4" />
+                <span className="relative z-10 tracking-[-0.01em] font-bold">Let's talk</span>
+                <span className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-[#0C0D12]/20 text-[#0C0D12] backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[#0C0D12] group-hover:text-[#F59E0B]">
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </span>
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
               </Link>
             </Magnetic>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-white/50 lg:hidden"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-[#161722]/80 text-white backdrop-blur-md transition-colors hover:border-[#F59E0B]/50 hover:bg-[#202230] lg:hidden touch-manipulation"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -131,17 +139,17 @@ export const Navbar: React.FC = () => {
             initial={reduceMotion ? false : { clipPath: 'circle(0% at calc(100% - 42px) -40px)' }}
             animate={{ clipPath: 'circle(150% at calc(100% - 42px) -40px)' }}
             exit={reduceMotion ? { opacity: 0 } : { clipPath: 'circle(0% at calc(100% - 42px) -40px)' }}
-            transition={{ duration: 0.7, ease: EASE }}
+            transition={{ duration: 0.65, ease: EASE }}
             data-lenis-prevent
-            className="fixed inset-x-0 bottom-0 top-20 z-40 flex flex-col justify-between overflow-y-auto bg-ink px-5 pb-8 pt-4 sm:px-8 lg:hidden"
+            className="fixed inset-x-0 bottom-0 top-20 z-40 flex flex-col justify-between overflow-y-auto bg-[#0C0D12]/98 px-5 pb-8 pt-4 backdrop-blur-3xl sm:px-8 lg:hidden"
           >
             <nav className="flex flex-col" aria-label="Mobile">
               {NAV_LINKS.map((link, i) => (
-                <div key={link.label} className="overflow-hidden border-b border-white/10">
+                <div key={link.label} className="overflow-hidden border-b border-border/40">
                   <motion.div
                     initial={reduceMotion ? false : { y: '110%' }}
                     animate={{ y: '0%' }}
-                    transition={{ duration: 0.6, delay: 0.18 + i * 0.05, ease: EASE }}
+                    transition={{ duration: 0.55, delay: 0.15 + i * 0.04, ease: EASE }}
                   >
                     <NavLink
                       to={link.href}
@@ -149,7 +157,7 @@ export const Navbar: React.FC = () => {
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
                         `flex items-center gap-4 py-4 font-display text-3xl font-medium transition-colors sm:text-4xl ${
-                          isActive ? 'text-gold' : 'text-white'
+                          isActive ? 'text-[#F59E0B]' : 'text-white hover:text-[#FBBF24]'
                         }`
                       }
                     >
@@ -165,22 +173,33 @@ export const Navbar: React.FC = () => {
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.55, ease: EASE }}
-              className="flex flex-col gap-4 pt-8"
+              transition={{ duration: 0.5, delay: 0.45, ease: EASE }}
+              className="flex flex-col gap-3.5 pt-8"
             >
               <Link
                 to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full rounded-full bg-gold py-4 text-center text-base font-semibold text-ink"
+                className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full border border-white/20 bg-gradient-to-r from-[#2563EB] to-[#0284C7] py-3.5 text-center text-base font-bold text-white shadow-[0_4px_20px_rgba(37,99,235,0.45),inset_0_1px_1px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-[1.02] hover:border-[#38BDF8] active:scale-[0.98]"
               >
-                Get a free strategy call
+                <span className="relative z-10">Get a free strategy call</span>
+                <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
               </Link>
-              <a href={`mailto:${BRAND.contact.email}`} className="text-center text-sm text-white/60">
-                {BRAND.contact.email}
-              </a>
-              <a href={`tel:${BRAND.contact.phone.replace(/[^+\d]/g, '')}`} className="-mt-2 text-center text-sm text-white/60">
-                {BRAND.contact.phone}
-              </a>
+              <div className="flex items-center justify-center gap-6 pt-2">
+                <a
+                  href={`mailto:${BRAND.contact.email}`}
+                  className="text-sm font-medium text-lavender hover:text-white"
+                >
+                  {BRAND.contact.email}
+                </a>
+                <span className="h-1 w-1 rounded-full bg-white/30" />
+                <a
+                  href={`tel:${BRAND.contact.phone.replace(/[^+\d]/g, '')}`}
+                  className="text-sm font-medium text-lavender hover:text-white"
+                >
+                  {BRAND.contact.phone}
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}
